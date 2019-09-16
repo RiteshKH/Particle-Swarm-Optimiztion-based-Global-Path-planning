@@ -16,9 +16,9 @@
 #include <functional>
 #include <iterator>
 #include <vector>
+#include "Constants.h"
 
 using namespace std;
-// const int PARTICLE_COUNT = 5;
 
 // Structure to store positions and velocities
 struct Coord
@@ -61,21 +61,24 @@ double shortfit(Coord input, Coord goal)
     return distance;
 }
 // Find smoothest path
-double smoothfit(Coord input, Coord target, Coord gbest)
+double smoothfit(Coord input, Coord goal, Coord gbest)
 {
-    double num = ((input.x - target.x) * (gbest.x - target.x)) + ((input.y - target.y) * (gbest.y - target.y));
-    double den = sqrt(pow((input.x - target.x), 2.0) + pow((input.y - target.y), 2.0)) * sqrt(pow((gbest.x - target.x), 2.0) + pow((gbest.y - target.y), 2.0));
+    double num = ((input.x - goal.x) * (gbest.x - goal.x)) + ((input.y - goal.y) * (gbest.y - goal.y));
+    double den = sqrt(pow((input.x - goal.x), 2.0) + pow((input.y - goal.y), 2.0)) * sqrt(pow((gbest.x - goal.x), 2.0) + pow((gbest.y - goal.y), 2.0));
     double smooth = acos(num / den);
     return smooth;
 }
 // Overall fitness function
-double fitness(Coord input, Coord target, Coord gbest)
+double fitness(Coord input, Coord gbest)
 {
+    Coord target; // Goal to reach
+    target.x = DESTINATION_X;
+    target.y = DESTINATION_Y;
     double distance = shortfit(input, target);
     double smooth = smoothfit(input, target, gbest);
     double alpha1 = 1, alpha2 = 1;
     double total_fitness = alpha1 * distance + alpha2 * smooth;
-    return total_fitness;
+    return (1 / total_fitness);
 }
 
 // shortest distance from obstacle
@@ -207,7 +210,7 @@ void write_to_csv(vector<vector<double>> particle_pos_x, vector<vector<double>> 
 void epochDisplay(int iter_ctr, double global_best_fit, Coord global_best_pos)
 {
     cout << "Iteration :" << iter_ctr << ".........." << endl;
-    cout << "New Global Best fitness: " << global_best_fit << endl;
+    cout << "New Global Best fitness: " << global_best_fit * pow(10, 3) << endl;
     cout << "New Global Best Position: (" << global_best_pos.x << "," << global_best_pos.y << ")" << endl;
 }
 
