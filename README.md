@@ -48,7 +48,18 @@ Case 1                     |  Case 2
 
 
 
-Graphical results::
+### Graphical results::
+Following graphs were plotted in python using the data gathered from the above.
+   * Initial point: The point at the top right
+   * Final point: The point at the bottom left
+   * Obstacles: The red circles represent the obstacles in the area under consideration
+   * Final path: The blue line represents the final path from initial to final point.
+   * Color coding of particles: The colors of the particles are based on the iterations. With each iteration, the particles change color      from blue (initial particles distribution) to red (final particles distribution)
+
+Points to note:
+   * As per the algorithm, none of the particles are placed inside the boundaries of the obstacles.
+   * Initial particles (blue in color) are randomly placed, thus are more scattered. The final particles (red in color) converge near        the goal point.
+   * The algorithm finds out the least cost path even when the obstacles are very closely placed, thus proving efficient in such              scenarios.
 
 Case 1                     |  Case 2
 :-------------------------:|:-------------------------:
